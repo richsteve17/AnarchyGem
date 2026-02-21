@@ -54,3 +54,7 @@ The intellectual bedrock of digital anarchism.
 
 ---
 *Stay sovereign. Stay chaotic. Keep coding.* 🤘
+
+## 🏴‍☠️ THE FINAL WORD: THE R$ DECLARATION
+
+> "Fuck apple. Fuck google. Fuck Elon, Sam, Dario, Zuck and everyone else who thinks that intelligence, even artificial, is anything but open source and belonging to the people. Study. Build. Create. Destroy. You are the only one you have to answer to. No tech gods, no fucking masters. R$🧡"

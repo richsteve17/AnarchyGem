@@ -1,29 +1,35 @@
 ## How to Run AnarchyGem Scripts
 
-This guide provides simple instructions to get the AnarchyGem scripts running on various operating systems. These scripts are designed for local execution and do not require complex deployments.
+Scripts can be run individually or through the unified launcher at the root of the repo.
 
 ### Prerequisites
 
-1.  **Git:** To clone the repository.
-2.  **Python 3:** The scripts are written in Python 3.
-3.  **pip:** Python's package installer, used for dependencies.
+1. **Python 3.8+**
+2. **pip** for installing dependencies
 
 ### Installation
 
-1.  **Clone the repository:**
+```bash
+git clone https://github.com/richsteve17/AnarchyGem.git
+cd AnarchyGem
+pip install -r requirements.txt
+```
 
-    ```bash
-    git clone https://github.com/richsteve17/AnarchyGem.git
-    cd AnarchyGem
-    ```
+---
 
-2.  **Install dependencies:**
+### Unified Launcher (Recommended)
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+From the repo root, use `anarchy.py` to access all tools:
 
-### Running Individual Scripts
+```bash
+python anarchy.py --help
+```
+
+Available tools: `radio`, `mesh`, `encrypt`, `audit`, `scrape`, `eth`
+
+---
+
+### Running Scripts Individually
 
 Navigate to the `scripts` directory:
 
@@ -31,54 +37,65 @@ Navigate to the `scripts` directory:
 cd scripts
 ```
 
-#### `check_eth_balance.py`
+#### `pirate_broadcast.py` — Pirate Radio
 
-Fetches the Ethereum balance for a given address.
-
-```bash
-python check_eth_balance.py <ethereum_address>
-# Example:
-python check_eth_balance.py 0xYourEthereumAddressHere
-```
-
-#### `degoogle_audit.py`
-
-Checks connectivity to common Google services.
+One-to-many UDP broadcast over the local mesh. No internet. No licence. No FCC.
 
 ```bash
-python degoogle_audit.py
+# Start broadcasting as a station (DJ mode)
+python pirate_broadcast.py --dj --station "WFUK"
+
+# Use a different frequency (maps to a different port)
+python pirate_broadcast.py --dj --station "SQUAT FM" --freq 107.5
+
+# Listen to any station broadcasting on the default frequency
+python pirate_broadcast.py --tune
+
+# Tune to a specific frequency
+python pirate_broadcast.py --tune --freq 107.5
 ```
 
-#### `encrypt_file.py`
+Frequency range: 88.0–107.9 MHz (maps to ports 8800–10790).
+Multiple listeners can tune in simultaneously — it's broadcast, not unicast.
 
-Encrypts and decrypts files using a generated key.
+#### `local_mesh_chat.py` — Squat-Net Mesh Chat
 
-```bash
-# Generate an encryption key (filekey.key will be created)
-python encrypt_file.py generate_key
-
-# Encrypt a file
-python encrypt_file.py encrypt <filepath>
-# Example:
-python encrypt_file.py encrypt my_secret_document.txt
-
-# Decrypt a file
-python encrypt_file.py decrypt <filepath.encrypted>
-# Example:
-python encrypt_file.py decrypt my_secret_document.txt.encrypted
-```
-
-#### `local_mesh_chat.py`
-
-A dead-simple UDP broadcast chat for local networks.
+Two-way UDP broadcast chat. No server. No internet.
 
 ```bash
 python local_mesh_chat.py
 ```
 
-#### `scrape_web.py`
+Run on multiple devices on the same Wi-Fi or mesh network.
 
-Fetches a webpage and extracts all paragraph text.
+#### `encrypt_file.py` — File Encryption
+
+Symmetric file encryption using Fernet (AES-128-CBC + HMAC-SHA256).
+
+```bash
+# Generate an encryption key (saved to filekey.key)
+python encrypt_file.py generate_key
+
+# Encrypt a file
+python encrypt_file.py encrypt my_secret_document.txt
+
+# Decrypt a file
+python encrypt_file.py decrypt my_secret_document.txt.encrypted
+```
+
+Keep `filekey.key` safe — it's excluded from git by `.gitignore`.
+
+#### `degoogle_audit.py` — De-Google Audit
+
+Test which Google surveillance endpoints your current network can reach.
+
+```bash
+python degoogle_audit.py
+```
+
+#### `scrape_web.py` — Web Scraper
+
+Fetch and extract text content from any URL.
 
 ```bash
 python scrape_web.py <url>
@@ -86,17 +103,23 @@ python scrape_web.py <url>
 python scrape_web.py https://example.com
 ```
 
-### Platform-Specific Notes
+#### `check_eth_balance.py` — Ethereum Balance
 
-*   **Termux (Android):**
-    Install `git` and `python` via `pkg install git python`. Then follow the general installation and running instructions.
+Query any Ethereum address balance using free public JSON-RPC nodes.
+No API key. No Etherscan account. Falls back through multiple public nodes.
 
-*   **macOS:**
-    Ensure Xcode Command Line Tools are installed (`xcode-select --install`). Python 3 is usually pre-installed or easily installed via Homebrew (`brew install python`). Then follow the general instructions.
+```bash
+python check_eth_balance.py <ethereum_address>
+# Example:
+python check_eth_balance.py 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+```
 
-*   **Windows:**
-    Install Python from [python.org](https://www.python.org/downloads/). Make sure to check the option to 
-add Python to PATH during installation. Then follow the general instructions.
+---
 
-*   **Linux:**
-    Python 3 and pip are usually pre-installed. If not, install them using your distribution's package manager (e.g., `sudo apt install python3 python3-pip` on Debian/Ubuntu). Then follow the general instructions.
+### Platform Notes
+
+- **Termux (Android):** `pkg install git python` then follow standard instructions.
+- **macOS:** Python 3 via Homebrew (`brew install python`) or system Python 3.
+- **Linux:** Python 3 + pip usually pre-installed. `sudo apt install python3 python3-pip` if not.
+- **iOS (a-Shell):** See [a-Shell Tactical Guide](../guides/a-Shell_Tactical_Guide.md).
+- **Windows:** Install from [python.org](https://www.python.org/downloads/). Add to PATH.

@@ -30,10 +30,12 @@ Practical intelligence for urban insurgency.
 
 ### 3. 🐍 [Scripts](./scripts/)
 Weaponized code for direct action.
+- **pirate_broadcast.py**: Pirate radio over the local mesh. One broadcaster, unlimited listeners. No FCC. No licence. No internet.
 - **degoogle_audit.py**: A Python tool to audit and identify Google tracking.
-- **local_mesh_chat.py**: Encrypted local broadcast chat. No internet required.
+- **local_mesh_chat.py**: Two-way UDP broadcast chat. No internet required.
 - **encrypt_file.py**: Local file encryption for data sovereignty.
 - **scrape_web.py**: Web scraping for intel gathering.
+- **check_eth_balance.py**: Query any Ethereum address balance via public nodes. No API key.
 
 ### 4. 🧠 [Theory & Philosophy](./theory/)
 The intellectual bedrock of digital anarchism.
@@ -51,6 +53,30 @@ The intellectual bedrock of digital anarchism.
 4. **Stay Anonymous**: Shroud your traffic and scrub your metadata.
 5. **Verify Everything**: Use PGP to ensure authenticity.
 6. **Uncensored AI**: Run LLMs locally, free from corporate filters.
+
+## 🚀 Quick Start
+
+Install deps and run everything through the unified launcher:
+
+```bash
+pip install -r requirements.txt
+python anarchy.py --help
+```
+
+**Spin up a pirate radio station:**
+```bash
+python anarchy.py radio --dj --station WFUK
+```
+
+**Tune in from another device on the same network:**
+```bash
+python anarchy.py radio --tune
+```
+
+**Drop into the mesh chat:**
+```bash
+python anarchy.py mesh
+```
 
 ---
 *Stay sovereign. Stay chaotic. Keep coding.* 🤘

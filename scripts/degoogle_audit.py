@@ -4,7 +4,7 @@ import json
 def check_google_connectivity():
     """Checks if common Google services are reachable."""
     google_services = {
-        "Google DNS": "https://8.8.8.8",
+        "Google DNS": "https://dns.google",
         "Google Search": "https://www.google.com",
         "Google Analytics (Tracker)": "https://www.google-analytics.com/analytics.js",
         "Google Fonts": "https://fonts.googleapis.com"

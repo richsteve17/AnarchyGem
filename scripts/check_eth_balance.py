@@ -1,58 +1,111 @@
+#!/usr/bin/env python3
+"""
+check_eth_balance.py — Query Ethereum balance via public JSON-RPC.
+No API key. No signup. No corporate middleman.
+Uses free public RPC endpoints — falls back through them if one is down.
+"""
+
+import sys
+import json
 import requests
 
-def get_eth_balance(address):
-    """Fetches the Ethereum balance for a given address using a public API."""
-    # This uses a public Ethereum node/explorer API. Replace with a truly decentralized one if available.
-    # For demonstration, we'll use a placeholder for a public API endpoint.
-    # In a real scenario, you might use Infura, Alchemy, or a self-hosted node.
-    # For true decentralization, consider direct interaction with a local Ethereum client or IPFS.
-    
-    # Example public API endpoint (replace with a real one if needed for live testing)
-    # For this example, we'll simulate a response or use a well-known public endpoint if available without API key.
-    # Etherscan API is commonly used, but requires an API key for most calls. 
-    # Let's simulate a simple public read-only call or use a free tier if one exists for balance.
-    
-    # For a truly 'guerrilla' approach, one might parse a public explorer page, but API is cleaner.
-    # Let's use a placeholder for a public read-only JSON RPC endpoint or a free tier API.
-    # A simple way to get balance without an API key for demonstration is harder for public APIs.
-    # Let's assume a hypothetical public endpoint for simplicity.
+# Public Ethereum JSON-RPC endpoints — no API key required.
+# If one is rate-limited or dead, we try the next.
+PUBLIC_RPC_ENDPOINTS = [
+    "https://cloudflare-eth.com",
+    "https://eth.llamarpc.com",
+    "https://rpc.ankr.com/eth",
+    "https://ethereum.publicnode.com",
+]
 
-    # Using a public API that might not require a key for simple reads (e.g., Infura/Alchemy free tier, but they still prefer keys)
-    # For a script to run without *any* setup, a direct JSON-RPC call to a public node is best, but those are rate-limited.
-    # Let's craft a response that *looks* like an API call for demonstration purposes.
+WEI_PER_ETH = 10 ** 18
 
-    # A more robust solution would involve a library like web3.py and a node URL.
-    # For the spirit of 'guerrilla tactics' and no paywalls, we'll keep it simple.
 
-    # Placeholder for a public Ethereum node (e.g., from Chainlist.org or similar)
-    # Note: Public nodes are often rate-limited or unreliable for production.
-    # For a truly decentralized spirit, one would run their own node or use a peer-to-peer network.
-    # For this example, we'll use a mock response to show the concept.
+def wei_to_eth(wei_hex: str) -> float:
+    """Convert a hex wei string (e.g. '0x1a2b3c') to ETH as a float."""
+    return int(wei_hex, 16) / WEI_PER_ETH
 
-    print(f"Attempting to fetch balance for Ethereum address: {address}")
-    print("Note: This script demonstrates interaction with a *hypothetical* public decentralized API.")
-    print("Real-world usage often requires API keys or direct node connections.")
 
-    # Mock API response for demonstration
-    mock_balance_wei = 1234567890123456789 # Example balance in Wei
-    mock_balance_eth = mock_balance_wei / (10**18)
+def fetch_balance(address: str) -> float | None:
+    """
+    Query eth_getBalance via JSON-RPC against public nodes.
+    Returns balance in ETH, or None if all endpoints fail.
+    """
+    payload = {
+        "jsonrpc": "2.0",
+        "method": "eth_getBalance",
+        "params": [address, "latest"],
+        "id": 1,
+    }
+    headers = {"Content-Type": "application/json"}
 
-    if address.startswith("0x") and len(address) == 42: # Basic address validation
-        print(f"Successfully retrieved mock balance: {mock_balance_eth:.4f} ETH")
-        return mock_balance_eth
-    else:
-        print("Invalid Ethereum address format.")
-        return None
+    for endpoint in PUBLIC_RPC_ENDPOINTS:
+        try:
+            resp = requests.post(
+                endpoint,
+                data=json.dumps(payload),
+                headers=headers,
+                timeout=8,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+
+            if "error" in data:
+                print(f"  [!] RPC error from {endpoint}: {data['error'].get('message', data['error'])}")
+                continue
+
+            balance_eth = wei_to_eth(data["result"])
+            return balance_eth
+
+        except requests.exceptions.Timeout:
+            print(f"  [~] {endpoint} timed out. Trying next node...")
+        except requests.exceptions.ConnectionError:
+            print(f"  [~] {endpoint} unreachable. Trying next node...")
+        except (KeyError, ValueError) as e:
+            print(f"  [!] Bad response from {endpoint}: {e}")
+
+    return None
+
+
+def validate_address(address: str) -> bool:
+    """Basic sanity check: 0x-prefixed, 42 chars total (20 bytes hex)."""
+    return (
+        address.startswith("0x")
+        and len(address) == 42
+        and all(c in "0123456789abcdefABCDEF" for c in address[2:])
+    )
+
+
+def main():
+    print("\n  [ ETH BALANCE CHECKER — public nodes, no keys, no gatekeepers ]")
+    print("  Usage: python check_eth_balance.py <ethereum_address>\n")
+
+    if len(sys.argv) < 2:
+        print("  No address provided.")
+        print("  Example: python check_eth_balance.py 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045")
+        sys.exit(1)
+
+    address = sys.argv[1].strip()
+
+    if not validate_address(address):
+        print(f"  [!] '{address}' does not look like a valid Ethereum address.")
+        print("      Expected format: 0x followed by 40 hex characters.")
+        sys.exit(1)
+
+    print(f"  Address:  {address}")
+    print(f"  Querying public Ethereum nodes...\n")
+
+    balance = fetch_balance(address)
+
+    if balance is None:
+        print("\n  [!] All public RPC endpoints failed.")
+        print("      You may be offline, or all nodes are rate-limiting you.")
+        print("      Try again later or run your own node.")
+        sys.exit(1)
+
+    print(f"  Balance:  {balance:.6f} ETH")
+    print(f"            ({int(balance * WEI_PER_ETH):,} Wei)\n")
+
 
 if __name__ == "__main__":
-    print("\n--- Decentralized API Interaction (Ethereum Balance) ---")
-    print("Usage: python check_eth_balance.py <ethereum_address>")
-
-    import sys
-    if len(sys.argv) > 1:
-        eth_address = sys.argv[1]
-        get_eth_balance(eth_address)
-    else:
-        print("No Ethereum address provided. Example: python check_eth_balance.py 0xYourEthereumAddressHere")
-
-    print("\nNOTE: This is a conceptual script. For live data, you would integrate with a public blockchain API (e.g., Etherscan, Infura) or a local node.")
+    main()

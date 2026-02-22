@@ -6,6 +6,18 @@ Welcome to the **AnarchyGem**. This is a curated collection of manifestos, guide
 
 This gem is for the generator in the basement, the mesh network on the roof, and the terminal in the dark. It is the ultimate toolkit for true digital sovereignty.
 
+## 🔓 Open Source, Contributions Welcomed
+This is open source by design.
+Fork it. Build from it. Break it. Patch it.
+Critique it. Improve it. Send PRs. Tell me what you made.
+
+## 🧱 Scope + Status
+This repo is intentionally built at the lowest common denominator: basic terminal + basic Python, including phone-first setups.
+
+The tools are simple on purpose so people can read the code, run it, and modify it.
+
+More editions and patches are coming. This is a living toolkit.
+
 ## 📁 Package Structure
 
 The toolkit is organized into five tactical sectors:
@@ -59,23 +71,23 @@ The intellectual bedrock of digital anarchism.
 Install deps and run everything through the unified launcher:
 
 ```bash
-pip install -r requirements.txt
-python anarchy.py --help
+python3 -m pip install -r requirements.txt
+python3 anarchy.py --help
 ```
 
 **Spin up a pirate radio station:**
 ```bash
-python anarchy.py radio --dj --station WFUK
+python3 anarchy.py radio --dj --station WFUK
 ```
 
 **Tune in from another device on the same network:**
 ```bash
-python anarchy.py radio --tune
+python3 anarchy.py radio --tune
 ```
 
 **Drop into the mesh chat:**
 ```bash
-python anarchy.py mesh
+python3 anarchy.py mesh
 ```
 
 ---

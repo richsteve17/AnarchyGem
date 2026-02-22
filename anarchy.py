@@ -24,46 +24,46 @@ TOOLS = {
         "script": "pirate_broadcast.py",
         "desc": "Pirate broadcast — one-to-many UDP mesh radio. No FCC. No licence.",
         "examples": [
-            "python anarchy.py radio --dj --station WFUK",
-            "python anarchy.py radio --tune",
-            "python anarchy.py radio --dj --station 'SQUAT FM' --freq 107.5",
+            "python3 anarchy.py radio --dj --station WFUK",
+            "python3 anarchy.py radio --tune",
+            "python3 anarchy.py radio --dj --station 'SQUAT FM' --freq 107.5",
         ],
     },
     "mesh": {
         "script": "local_mesh_chat.py",
         "desc": "Squat-net local mesh chat — two-way UDP broadcast. No internet required.",
         "examples": [
-            "python anarchy.py mesh",
+            "python3 anarchy.py mesh",
         ],
     },
     "encrypt": {
         "script": "encrypt_file.py",
         "desc": "File encryption/decryption — Fernet symmetric encryption. Your files, your keys.",
         "examples": [
-            "python anarchy.py encrypt generate_key",
-            "python anarchy.py encrypt encrypt secret.txt",
-            "python anarchy.py encrypt decrypt secret.txt.encrypted",
+            "python3 anarchy.py encrypt generate_key",
+            "python3 anarchy.py encrypt encrypt secret.txt",
+            "python3 anarchy.py encrypt decrypt secret.txt.encrypted",
         ],
     },
     "audit": {
         "script": "degoogle_audit.py",
-        "desc": "De-Google audit — test which Google surveillance endpoints your network can reach.",
+        "desc": "De-Google recon — baseline check for reachable Google endpoints + tracker domains.",
         "examples": [
-            "python anarchy.py audit",
+            "python3 anarchy.py audit",
         ],
     },
     "scrape": {
         "script": "scrape_web.py",
         "desc": "Web scraper — extract text from any URL. Intel gathering, archival, liberation.",
         "examples": [
-            "python anarchy.py scrape https://example.com",
+            "python3 anarchy.py scrape https://example.com",
         ],
     },
     "eth": {
         "script": "check_eth_balance.py",
         "desc": "ETH balance — query Ethereum address balance via public nodes. No API key needed.",
         "examples": [
-            "python anarchy.py eth 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+            "python3 anarchy.py eth 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
         ],
     },
 }
@@ -84,7 +84,7 @@ def print_help():
     print()
     print(DIVIDER)
     print("  USAGE\n")
-    print("    python anarchy.py <tool> [args...]\n")
+    print("    python3 anarchy.py <tool> [args...]\n")
     print("  EXAMPLES\n")
     for name, info in TOOLS.items():
         for ex in info["examples"][:1]:
@@ -131,7 +131,7 @@ def main():
     if tool_name not in TOOLS:
         print(f"\n  [!] Unknown tool: '{tool_name}'")
         print(f"      Available: {', '.join(TOOLS.keys())}")
-        print(f"      Run 'python anarchy.py --help' for usage.\n")
+        print(f"      Run 'python3 anarchy.py --help' for usage.\n")
         sys.exit(1)
 
     run_tool(tool_name, remaining_args)

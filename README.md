@@ -43,11 +43,15 @@ Practical intelligence for urban insurgency.
 ### 3. 🐍 [Scripts](./scripts/)
 Weaponized code for direct action.
 - **pirate_broadcast.py**: Pirate radio over the local mesh. One broadcaster, unlimited listeners. No FCC. No licence. No internet.
-- **degoogle_audit.py**: A Python tool to audit and identify Google tracking.
+- **degoogle_audit.py**: De-Google recon: checks endpoint reachability and surfaces likely tracker domains.
 - **local_mesh_chat.py**: Two-way UDP broadcast chat. No internet required.
 - **encrypt_file.py**: Local file encryption for data sovereignty.
 - **scrape_web.py**: Web scraping for intel gathering.
 - **check_eth_balance.py**: Query any Ethereum address balance via public nodes. No API key.
+
+### Reality Check (Still Hype)
+`audit` is a fast baseline recon tool, not a full forensic tracker scanner.
+Use it to map signal quickly, then extend it with deeper traffic analysis if needed.
 
 ### 4. 🧠 [Theory & Philosophy](./theory/)
 The intellectual bedrock of digital anarchism.

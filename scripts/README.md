@@ -12,7 +12,7 @@ Scripts can be run individually or through the unified launcher at the root of t
 ```bash
 git clone https://github.com/richsteve17/AnarchyGem.git
 cd AnarchyGem
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 ---
@@ -22,7 +22,7 @@ pip install -r requirements.txt
 From the repo root, use `anarchy.py` to access all tools:
 
 ```bash
-python anarchy.py --help
+python3 anarchy.py --help
 ```
 
 Available tools: `radio`, `mesh`, `encrypt`, `audit`, `scrape`, `eth`
@@ -43,16 +43,16 @@ One-to-many UDP broadcast over the local mesh. No internet. No licence. No FCC.
 
 ```bash
 # Start broadcasting as a station (DJ mode)
-python pirate_broadcast.py --dj --station "WFUK"
+python3 pirate_broadcast.py --dj --station "WFUK"
 
 # Use a different frequency (maps to a different port)
-python pirate_broadcast.py --dj --station "SQUAT FM" --freq 107.5
+python3 pirate_broadcast.py --dj --station "SQUAT FM" --freq 107.5
 
 # Listen to any station broadcasting on the default frequency
-python pirate_broadcast.py --tune
+python3 pirate_broadcast.py --tune
 
 # Tune to a specific frequency
-python pirate_broadcast.py --tune --freq 107.5
+python3 pirate_broadcast.py --tune --freq 107.5
 ```
 
 Frequency range: 88.0–107.9 MHz (maps to ports 8800–10790).
@@ -63,7 +63,7 @@ Multiple listeners can tune in simultaneously — it's broadcast, not unicast.
 Two-way UDP broadcast chat. No server. No internet.
 
 ```bash
-python local_mesh_chat.py
+python3 local_mesh_chat.py
 ```
 
 Run on multiple devices on the same Wi-Fi or mesh network.
@@ -74,33 +74,35 @@ Symmetric file encryption using Fernet (AES-128-CBC + HMAC-SHA256).
 
 ```bash
 # Generate an encryption key (saved to filekey.key)
-python encrypt_file.py generate_key
+python3 encrypt_file.py generate_key
 
 # Encrypt a file
-python encrypt_file.py encrypt my_secret_document.txt
+python3 encrypt_file.py encrypt my_secret_document.txt
 
 # Decrypt a file
-python encrypt_file.py decrypt my_secret_document.txt.encrypted
+python3 encrypt_file.py decrypt my_secret_document.txt.encrypted
 ```
 
 Keep `filekey.key` safe — it's excluded from git by `.gitignore`.
 
-#### `degoogle_audit.py` — De-Google Audit
+#### `degoogle_audit.py` — De-Google Recon Audit
 
-Test which Google surveillance endpoints your current network can reach.
+Fast baseline recon: test which Google endpoints your current network can reach, and print common tracker domains to investigate.
 
 ```bash
-python degoogle_audit.py
+python3 degoogle_audit.py
 ```
+
+Reality check: this is a starter signal tool, not a full forensic tracker scanner.
 
 #### `scrape_web.py` — Web Scraper
 
 Fetch and extract text content from any URL.
 
 ```bash
-python scrape_web.py <url>
+python3 scrape_web.py <url>
 # Example:
-python scrape_web.py https://example.com
+python3 scrape_web.py https://example.com
 ```
 
 #### `check_eth_balance.py` — Ethereum Balance
@@ -109,9 +111,9 @@ Query any Ethereum address balance using free public JSON-RPC nodes.
 No API key. No Etherscan account. Falls back through multiple public nodes.
 
 ```bash
-python check_eth_balance.py <ethereum_address>
+python3 check_eth_balance.py <ethereum_address>
 # Example:
-python check_eth_balance.py 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+python3 check_eth_balance.py 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 ```
 
 ---

@@ -49,10 +49,6 @@ Weaponized code for direct action.
 - **scrape_web.py**: Web scraping for intel gathering.
 - **check_eth_balance.py**: Query any Ethereum address balance via public nodes. No API key.
 
-### Reality Check (Still Hype)
-`audit` is a fast baseline recon tool, not a full forensic tracker scanner.
-Use it to map signal quickly, then extend it with deeper traffic analysis if needed.
-
 ### 4. 🧠 [Theory & Philosophy](./theory/)
 The intellectual bedrock of digital anarchism.
 - **Abolitionist AI Framework**: Moving beyond reform to dismantling oppressive systems.

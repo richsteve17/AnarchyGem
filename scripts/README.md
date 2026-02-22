@@ -93,8 +93,6 @@ Fast baseline recon: test which Google endpoints your current network can reach,
 python3 degoogle_audit.py
 ```
 
-Reality check: this is a starter signal tool, not a full forensic tracker scanner.
-
 #### `scrape_web.py` — Web Scraper
 
 Fetch and extract text content from any URL.
